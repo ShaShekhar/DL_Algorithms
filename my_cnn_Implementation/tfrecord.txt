@@ -1,0 +1,10 @@
+If you are working with large datasets, using a binary file format for storage of your data can have a significant impact on the performance of your import pipeline and as a consequence on the training time of your model.Binary data takes up less space on disk, takes less time to copy and can be read much more effciently from disk. This is especially true if your data is stored on spinning disks, due to the much lower read/write performance in comparison with SSDs.
+However, pure performance isn't the only advantage of the TFRecord file format.It is optimized for use with Tensorflow in multiple ways.
+
+* To start with,it makes it easy to combine multiple datasets and integrates seamlessly with the data import and preprocessing functionality provided by the library.Especially for datasets that are too large to be stored fully in memory this is an advantage as only the data that is required at the time is loaded from disk and then processed.
+* So, there are a lot of advantages to using TFRecords.But where there is light, there must be shadow and in this case of TFRecords the downside is that you have to convert your data to this format in the first place.
+
+****Structuring TFRecords****
+A TFRecord file stores your data as a sequence of binary strings.This means you need to specify the structure of your data before you write it to the file.Tensorflow provides two components for this purpose:
+tf.train.Example and tf.train.SequenceExample.
+You have to store each sample of your data in one of these structures, then serialize it and use a tf.python_io.TFRecordWriter to write it to disk.
